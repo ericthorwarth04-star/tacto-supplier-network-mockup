@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Building2, CalendarClock, CheckCircle2, FileCheck2, Loader2, Sparkles, Upload, X } from 'lucide-react'
+import { Building2, CalendarClock, Check, FileCheck2, FileText, Upload, X } from 'lucide-react'
 import { request, requestingCustomer } from '../data/mock'
-import { Button, Card, Page, SceneCaption } from '../components/ui'
+import { AgentOrb, Button, Card, IconTile, Label, Page, SceneCaption, Tag } from '../components/ui'
 import StepNav from '../components/StepNav'
+import TactoShell from '../components/TactoShell'
 
 type UploadState = 'idle' | 'uploading' | 'done'
 type Decision = 'upload' | 'na' | 'decline'
@@ -22,7 +23,7 @@ export default function RequestForm() {
       setState('done')
       setValidFrom(request.extractedValidFrom)
       setValidTo(request.extractedValidTo)
-    }, 1100)
+    }, 1400)
   }
 
   const reset = () => {
@@ -34,153 +35,154 @@ export default function RequestForm() {
   const canSubmit = decision !== 'upload' || (state === 'done' && validFrom && validTo)
 
   return (
-    <Page narrow>
-      <SceneCaption step={2}>Der persönliche Link öffnet die Anfrage direkt im Browser, ohne Login.</SceneCaption>
+    <TactoShell mode="request" context={<Tag>Im Auftrag von {requestingCustomer.name}</Tag>}>
+      <Page narrow>
+        <SceneCaption step={2}>Der persönliche Link öffnet die Anfrage direkt im Browser, ohne Login.</SceneCaption>
 
-      <div className="mb-3 flex items-center justify-between text-xs text-slate-400">
-        <span>
-          Anfrage von <span className="font-medium text-slate-600">{requestingCustomer.name}</span>
-        </span>
-        <span>
-          bereitgestellt über <span className="font-semibold text-accent-700">tacto</span>
-        </span>
-      </div>
+        <Label>Dokumentenanfrage</Label>
+        <h1 className="mt-3 text-[34px] font-light leading-[1.15] tracking-[-0.02em]">
+          Hoffmann Antriebstechnik bittet um Ihr aktuelles ISO-9001-Zertifikat.
+          <span className="block text-black/35">Kein Login nötig. Dauer: ca. 3 Minuten.</span>
+        </h1>
 
-      <Card className="mb-6 p-6">
-        <h1 className="text-xl font-semibold text-slate-900">Dokumentenanfrage</h1>
-        <div className="mt-5 grid grid-cols-3 gap-4 text-sm">
-          <div className="flex gap-3">
-            <Building2 className="mt-0.5 h-5 w-5 text-slate-400" />
-            <div>
-              <div className="text-slate-500">Anfragender Kunde</div>
-              <div className="font-medium text-slate-800">{requestingCustomer.name}</div>
-              <div className="text-xs text-slate-500">{requestingCustomer.contact}</div>
+        <Card className="mt-8 grid grid-cols-3 divide-x divide-black/[0.06]">
+          {[
+            { icon: Building2, label: 'Anfragender Kunde', value: requestingCustomer.name, sub: requestingCustomer.contact },
+            { icon: CalendarClock, label: 'Frist', value: request.deadline, sub: 'noch 70 Tage' },
+            { icon: FileCheck2, label: 'Bitte vorbereiten', value: '1 Dokument', sub: 'Zertifikat als PDF' },
+          ].map(({ icon, label, value, sub }) => (
+            <div key={label} className="flex gap-3 p-5">
+              <IconTile icon={icon} />
+              <div className="min-w-0">
+                <Label>{label}</Label>
+                <div className="mt-1 text-[14px] leading-snug">{value}</div>
+                <div className="text-[12px] text-black/45">{sub}</div>
+              </div>
             </div>
-          </div>
-          <div className="flex gap-3">
-            <CalendarClock className="mt-0.5 h-5 w-5 text-slate-400" />
-            <div>
-              <div className="text-slate-500">Frist</div>
-              <div className="font-medium text-slate-800">{request.deadline}</div>
-              <div className="text-xs text-slate-500">noch 70 Tage</div>
-            </div>
-          </div>
-          <div className="flex gap-3">
-            <FileCheck2 className="mt-0.5 h-5 w-5 text-slate-400" />
-            <div>
-              <div className="text-slate-500">Bitte vorbereiten</div>
-              <div className="font-medium text-slate-800">1 Dokument</div>
-              <div className="text-xs text-slate-500">Zertifikat als PDF</div>
-            </div>
-          </div>
-        </div>
-      </Card>
+          ))}
+        </Card>
 
-      <Card className="p-6">
-        <div className="flex items-start justify-between">
-          <div>
-            <h2 className="text-lg font-semibold text-slate-900">{request.document}</h2>
-            <p className="text-sm text-slate-500">Zertifikat Qualitätsmanagementsystem, aktuelle Fassung</p>
+        <Card className="mt-5">
+          <div className="flex items-center gap-3 border-b border-black/[0.06] px-6 py-4">
+            <IconTile icon={FileText} />
+            <div className="flex-1">
+              <Label>Dokument 1 von 1</Label>
+              <div className="text-[16px]">{request.document}</div>
+            </div>
+            {decision !== 'upload' && <Tag>{decision === 'na' ? 'Nicht zutreffend' : 'Abgelehnt'}</Tag>}
+            {decision === 'upload' && state === 'done' && (
+              <Tag tone="sea">
+                <Check className="h-3 w-3" /> Bereit
+              </Tag>
+            )}
           </div>
-          {decision !== 'upload' && (
-            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
-              {decision === 'na' ? 'Als nicht zutreffend markiert' : 'Abgelehnt'}
-            </span>
-          )}
-        </div>
 
-        {decision === 'upload' && (
-          <>
-            <div className="mt-5">
-              {state === 'idle' && (
-                <button
-                  onClick={simulateUpload}
-                  className="flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 py-10 text-sm text-slate-500 transition hover:border-accent-500 hover:bg-accent-50"
-                >
-                  <Upload className="mb-2 h-6 w-6 text-slate-400" />
-                  <span className="font-medium text-slate-700">Datei hierher ziehen oder klicken</span>
-                  <span className="text-xs">PDF, max. 20 MB</span>
-                </button>
-              )}
-              {state === 'uploading' && (
-                <div className="flex items-center gap-3 rounded-lg border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-600">
-                  <Loader2 className="h-5 w-5 animate-spin text-accent-600" />
-                  <span>{request.uploadFileName} wird hochgeladen und ausgelesen ...</span>
-                </div>
-              )}
-              {state === 'done' && (
-                <div className="flex items-center gap-3 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm">
-                  <CheckCircle2 className="h-5 w-5 text-emerald-600" />
-                  <span className="flex-1 font-medium text-slate-800">{request.uploadFileName}</span>
-                  <span className="text-xs text-slate-500">1,2 MB</span>
-                  <button onClick={reset} className="cursor-pointer text-slate-400 hover:text-slate-600" aria-label="Datei entfernen">
-                    <X className="h-4 w-4" />
+          <div className="px-6 py-5">
+            {decision === 'upload' && (
+              <>
+                {state === 'idle' && (
+                  <button
+                    onClick={simulateUpload}
+                    className="flex w-full cursor-pointer flex-col items-center justify-center rounded-[8px] border border-dashed border-black/20 bg-smoke py-10 transition hover:border-black/50"
+                  >
+                    <Upload className="mb-3 h-5 w-5 text-black/50" strokeWidth={1.5} />
+                    <span className="text-[14px]">Datei hierher ziehen oder klicken</span>
+                    <span className="mono-label mt-1">PDF · max. 20 MB</span>
                   </button>
-                </div>
-              )}
-            </div>
+                )}
+                {state === 'uploading' && (
+                  <div className="flex items-center gap-3 rounded-[8px] border border-black/[0.08] bg-smoke px-4 py-4">
+                    <AgentOrb size={28} />
+                    <div className="flex-1">
+                      <Label>Tacto-Agent</Label>
+                      <div className="text-[14px]">Liest {request.uploadFileName} aus ...</div>
+                    </div>
+                    <span className="h-1 w-24 overflow-hidden rounded-full bg-stone">
+                      <span className="block h-full w-1/2 animate-pulse rounded-full bg-blue" />
+                    </span>
+                  </div>
+                )}
+                {state === 'done' && (
+                  <div className="flex items-center gap-3 rounded-[8px] border border-black/[0.08] px-4 py-3">
+                    <FileText className="h-4 w-4 text-black/50" />
+                    <span className="flex-1 text-[14px]">{request.uploadFileName}</span>
+                    <span className="mono-label">1,2 MB</span>
+                    <button onClick={reset} className="cursor-pointer text-black/40 hover:text-black" aria-label="Datei entfernen">
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                )}
 
-            <div className="mt-5 grid grid-cols-2 gap-4">
-              {[
-                { label: 'Gültig ab', value: validFrom, set: setValidFrom },
-                { label: 'Gültig bis', value: validTo, set: setValidTo },
-              ].map((f) => (
-                <label key={f.label} className="block text-sm">
-                  <span className="mb-1 flex items-center gap-2 text-slate-600">
-                    {f.label}
-                    {state === 'done' && (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-accent-50 px-2 py-0.5 text-[11px] font-medium text-accent-700 ring-1 ring-accent-200">
-                        <Sparkles className="h-3 w-3" /> von der KI ausgelesen
+                <div className="mt-5 grid grid-cols-2 gap-4">
+                  {[
+                    { label: 'Gültig ab', value: validFrom, set: setValidFrom },
+                    { label: 'Gültig bis', value: validTo, set: setValidTo },
+                  ].map((f) => (
+                    <label key={f.label} className="block">
+                      <span className="mb-1.5 flex items-center gap-2">
+                        <span className="mono-label">{f.label}</span>
+                        {state === 'done' && (
+                          <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.04em] text-blue">
+                            <AgentOrb size={10} /> von der KI ausgelesen
+                          </span>
+                        )}
                       </span>
-                    )}
-                  </span>
-                  <input
-                    type="date"
-                    value={f.value}
-                    onChange={(e) => f.set(e.target.value)}
-                    className={`w-full rounded-md border px-3 py-2 text-slate-800 outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-100 ${
-                      state === 'done' ? 'border-accent-200 bg-accent-50/40' : 'border-slate-300'
-                    }`}
-                  />
-                </label>
-              ))}
-            </div>
-          </>
-        )}
+                      <input
+                        type="date"
+                        value={f.value}
+                        onChange={(e) => f.set(e.target.value)}
+                        className={`w-full rounded-[6px] border px-3 py-2.5 text-[14px] outline-none focus:border-black ${
+                          state === 'done' ? 'border-blue/30 bg-[#f3f7fe]' : 'border-black/15 bg-white'
+                        }`}
+                      />
+                    </label>
+                  ))}
+                </div>
+              </>
+            )}
+            {decision !== 'upload' && (
+              <p className="text-[14px] text-black/55">
+                {decision === 'na'
+                  ? 'Sie teilen Hoffmann Antriebstechnik mit, dass dieses Dokument für Ihr Unternehmen nicht zutrifft.'
+                  : 'Sie lehnen die Anfrage ab. Hoffmann Antriebstechnik wird darüber informiert.'}
+              </p>
+            )}
+          </div>
 
-        <div className="mt-6 flex flex-wrap gap-2 border-t border-slate-100 pt-5">
-          <Button variant="secondary" onClick={simulateUpload}>
-            <Upload className="h-4 w-4" /> Hochladen
-          </Button>
-          <Button
-            variant={decision === 'na' ? 'primary' : 'secondary'}
-            onClick={() => {
-              setDecision('na')
-              reset()
-            }}
-          >
-            Nicht zutreffend
-          </Button>
-          <Button
-            variant="danger"
-            onClick={() => {
-              setDecision('decline')
-              reset()
-            }}
-          >
-            Ablehnen
+          <div className="flex flex-wrap gap-2 border-t border-black/[0.06] px-6 py-4">
+            <Button variant="secondary" onClick={simulateUpload}>
+              <Upload className="h-3.5 w-3.5" /> Hochladen
+            </Button>
+            <Button
+              variant={decision === 'na' ? 'primary' : 'secondary'}
+              onClick={() => {
+                setDecision('na')
+                reset()
+              }}
+            >
+              Nicht zutreffend
+            </Button>
+            <Button
+              variant="danger"
+              onClick={() => {
+                setDecision('decline')
+                reset()
+              }}
+            >
+              Ablehnen
+            </Button>
+          </div>
+        </Card>
+
+        <div className="mt-6 flex items-center justify-end gap-4">
+          {!canSubmit && <span className="mono-label">Bitte zuerst das Dokument hochladen</span>}
+          <Button onClick={() => navigate('/3')} disabled={!canSubmit} className="px-6">
+            Absenden
           </Button>
         </div>
-      </Card>
 
-      <div className="mt-6 flex items-center justify-end gap-4">
-        {!canSubmit && <span className="text-sm text-slate-400">Bitte zuerst das Dokument hochladen.</span>}
-        <Button onClick={() => navigate('/3')} disabled={!canSubmit} className="px-6">
-          Absenden
-        </Button>
-      </div>
-
-      <StepNav prev="/1" next="/3" />
-    </Page>
+        <StepNav prev="/1" next="/3" />
+      </Page>
+    </TactoShell>
   )
 }

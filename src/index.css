@@ -1,16 +1,75 @@
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
 @import "tailwindcss";
 
+/*
+  Visual language modelled on tacto.ai: whitesmoke canvas, black ink,
+  light grotesk headlines, uppercase mono labels, thin hairline borders,
+  small radii, one hot orange accent plus sea/blue for AI elements.
+*/
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --color-accent-50: #eef6f7;
-  --color-accent-100: #d5e9ec;
-  --color-accent-200: #a9d2d8;
-  --color-accent-500: #1f7280;
-  --color-accent-600: #155e6b;
-  --color-accent-700: #0f4c5c;
-  --color-accent-800: #0b3a46;
-  --color-accent-900: #082b34;
+  --font-sans: "Geist Variable", "Aspekta", ui-sans-serif, system-ui, Arial, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, "SFMono-Regular", monospace;
+
+  --color-smoke: #f5f5f5;
+  --color-stone: #e4e2df;
+  --color-ash: #aeaeae;
+  --color-orange: #ff6414;
+  --color-orange-soft: #fff0e8;
+  --color-sea: #2abfc1;
+  --color-sea-soft: #e6f8f8;
+  --color-blue: #2170ec;
+  --color-green: #2ed24f;
+  --color-yellow: #ffcc14;
+
+  /* "accent" now maps to Tacto's black ink (used by the inbox screen) */
+  --color-accent-50: #f5f5f5;
+  --color-accent-100: #e4e2df;
+  --color-accent-200: #d4d2cf;
+  --color-accent-500: #000000;
+  --color-accent-600: #000000;
+  --color-accent-700: #000000;
+  --color-accent-800: #222222;
+  --color-accent-900: #000000;
 }
 
-html, body, #root { height: 100%; }
-body { @apply bg-slate-50 text-slate-800 antialiased; }
+html,
+body,
+#root {
+  height: 100%;
+}
+body {
+  @apply bg-smoke font-sans text-black antialiased;
+  font-weight: 350;
+}
+
+/* Reusable atoms */
+@utility mono-label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgb(0 0 0 / 0.5);
+}
+
+@utility card {
+  background: #fff;
+  border: 1px solid rgb(0 0 0 / 0.08);
+  border-radius: 10px;
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.03),
+    0 12px 32px -18px rgb(0 0 0 / 0.12);
+}
+
+@utility agent-orb {
+  border-radius: 9999px;
+  background: radial-gradient(circle at 30% 30%, #ffffff 0%, #b9d4ff 30%, #5b97f5 65%, #2170ec 100%);
+  box-shadow: inset 0 -2px 6px rgb(33 112 236 / 0.35);
+}
+
+@utility glow-orange {
+  background:
+    radial-gradient(60% 120% at 20% 0%, rgb(255 100 20 / 0.12), transparent 60%),
+    radial-gradient(50% 120% at 90% 0%, rgb(33 112 236 / 0.10), transparent 60%);
+}

@@ -39,4 +39,4 @@ Production build: `npm run build`, serve with `npm start` (uses `serve -s dist -
 
 ## Stack
 
-Vite, React, TypeScript, Tailwind CSS v4, React Router, lucide-react. No backend; all data lives in `src/data/mock.ts`.
+Vite, React, TypeScript, Tailwind CSS v4, React Router, lucide-react, Geist + Geist Mono (fontsource). Screens 2 to 5 follow the tacto.ai visual language (whitesmoke canvas, light grotesk headlines, uppercase mono labels, hairline borders, orange accent); no Tacto logo is used. No backend; all data lives in `src/data/mock.ts`.

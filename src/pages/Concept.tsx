@@ -47,17 +47,17 @@ const questions = [
 export default function Concept() {
   return (
     <Page narrow>
-      <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Concept summary</p>
-      <h1 className="mt-1 text-3xl font-semibold tracking-tight text-slate-900">From supplier request to growth channel</h1>
-      <p className="mt-3 text-slate-600">
+      <p className="mono-label">Concept summary</p>
+      <h1 className="mt-3 text-[40px] font-light leading-tight tracking-[-0.02em]">From supplier request to growth channel</h1>
+      <p className="mt-3 text-black/60">
         Turning the suppliers of Tacto's customers into a growth channel without damaging the customer–supplier relationship.
       </p>
 
       <section className="mt-10">
-        <h2 className="mb-3 flex items-center gap-2 text-lg font-semibold text-slate-900">
-          <Target className="h-5 w-5 text-accent-600" /> Problem
+        <h2 className="mb-3 flex items-center gap-2 text-[22px] font-light tracking-[-0.01em]">
+          <Target className="h-5 w-5 text-orange" /> Problem
         </h2>
-        <p className="text-slate-700">
+        <p className="text-black/70">
           Tacto's agents already reach a large number of suppliers when customers request compliance documents. Today the interaction ends
           after the upload. The supplier experiences Tacto only as buyer pressure, and there is no reason to come back. At the same
           time, many suppliers are manufacturers themselves, with their own supplier base and the same documentation burden (CBAM,
@@ -67,19 +67,19 @@ export default function Concept() {
       </section>
 
       <section className="mt-10">
-        <h2 className="mb-4 text-lg font-semibold text-slate-900">Mechanics in 5 steps</h2>
+        <h2 className="mb-4 text-[22px] font-light tracking-[-0.01em]">Mechanics in 5 steps</h2>
         <ol className="space-y-3">
           {mechanics.map((m, i) => (
             <li key={m.title}>
               <Card className="flex gap-4 p-4">
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent-700 text-sm font-semibold text-white">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-black font-mono text-[11px] text-white">
                   {i + 1}
                 </span>
                 <div className="flex-1">
-                  <div className="font-medium text-slate-900">{m.title}</div>
-                  <div className="mt-0.5 text-sm text-slate-600">{m.text}</div>
+                  <div className="text-[15px]">{m.title}</div>
+                  <div className="mt-0.5 text-sm text-black/60">{m.text}</div>
                 </div>
-                <Link to={m.step} className="self-center text-xs text-accent-700 hover:underline">
+                <Link to={m.step} className="self-center mono-label hover:!text-black">
                   Screen {m.step.slice(1)}
                 </Link>
               </Card>
@@ -89,18 +89,18 @@ export default function Concept() {
       </section>
 
       <section className="mt-10">
-        <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold text-slate-900">
-          <ShieldCheck className="h-5 w-5 text-accent-600" /> Hurdles addressed
+        <h2 className="mb-4 flex items-center gap-2 text-[22px] font-light tracking-[-0.01em]">
+          <ShieldCheck className="h-5 w-5 text-orange" /> Hurdles addressed
         </h2>
         <div className="grid grid-cols-2 gap-3">
           {Object.values(hurdles).map((h) => (
             <Card key={h.title} className="p-4">
-              <div className="text-sm font-semibold text-slate-900">{h.title}</div>
-              <div className="mt-1 text-sm text-slate-600">{h.text}</div>
+              <div className="text-[15px]">{h.title}</div>
+              <div className="mt-1 text-sm text-black/60">{h.text}</div>
             </Card>
           ))}
         </div>
-        <p className="mt-3 text-sm text-slate-500">
+        <p className="mt-3 text-sm text-black/50">
           Guiding principles: prices, negotiations and should-costs never appear. No customer sees the supplier's other customers.
           Value first, sales second: no offer right after the first mandatory task.
         </p>
@@ -108,26 +108,26 @@ export default function Concept() {
 
       <div className="mt-10 grid grid-cols-2 gap-6">
         <section>
-          <h2 className="mb-3 flex items-center gap-2 text-lg font-semibold text-slate-900">
-            <AlertTriangle className="h-5 w-5 text-amber-600" /> Risks
+          <h2 className="mb-3 flex items-center gap-2 text-[22px] font-light tracking-[-0.01em]">
+            <AlertTriangle className="h-5 w-5 text-orange" /> Risks
           </h2>
-          <ul className="space-y-2 text-sm text-slate-700">
+          <ul className="space-y-2 text-sm text-black/70">
             {risks.map((r) => (
               <li key={r} className="flex gap-2">
-                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-400" />
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-orange" />
                 {r}
               </li>
             ))}
           </ul>
         </section>
         <section>
-          <h2 className="mb-3 flex items-center gap-2 text-lg font-semibold text-slate-900">
-            <HelpCircle className="h-5 w-5 text-accent-600" /> Open questions for Tacto
+          <h2 className="mb-3 flex items-center gap-2 text-[22px] font-light tracking-[-0.01em]">
+            <HelpCircle className="h-5 w-5 text-orange" /> Open questions for Tacto
           </h2>
-          <ul className="space-y-2 text-sm text-slate-700">
+          <ul className="space-y-2 text-sm text-black/70">
             {questions.map((q) => (
               <li key={q} className="flex gap-2">
-                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-400" />
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-orange" />
                 {q}
               </li>
             ))}
@@ -135,8 +135,8 @@ export default function Concept() {
         </section>
       </div>
 
-      <div className="mt-12 border-t border-slate-200 pt-6">
-        <Link to="/1" className="inline-flex items-center gap-2 text-sm font-medium text-accent-700 hover:underline">
+      <div className="mt-12 border-t border-black/[0.08] pt-6">
+        <Link to="/1" className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.04em] text-black hover:text-orange">
           Start the walkthrough <ArrowRight className="h-4 w-4" />
         </Link>
       </div>

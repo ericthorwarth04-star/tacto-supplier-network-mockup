@@ -136,6 +136,7 @@ export default function Inbox() {
                   n={1}
                   hurdle="discretion"
                   align="right"
+                  placement="top"
                   note="The request comes from the customer, Tacto is only the sender-on-behalf. No referral and no sales message in this mail: the first touchpoint is the customer's own task."
                 />
               </div>

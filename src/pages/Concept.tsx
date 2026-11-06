@@ -58,7 +58,7 @@ export default function Concept() {
           <Target className="h-5 w-5 text-accent-600" /> Problem
         </h2>
         <p className="text-slate-700">
-          Tacto's agents already reach thousands of suppliers when customers request compliance documents. Today the interaction ends
+          Tacto's agents already reach a large number of suppliers when customers request compliance documents. Today the interaction ends
           after the upload. The supplier experiences Tacto only as buyer pressure, and there is no reason to come back. At the same
           time, many suppliers are manufacturers themselves, with their own supplier base and the same documentation burden (CBAM,
           LkSG). The challenge: use this reach without making customers feel their suppliers are being sold to, and without exposing

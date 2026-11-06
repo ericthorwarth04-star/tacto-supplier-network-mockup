@@ -8,11 +8,12 @@ interface Props {
   hurdle: HurdleKey
   note?: string
   align?: 'left' | 'right'
+  placement?: 'top' | 'bottom'
   className?: string
 }
 
 /** Numbered presentation marker. Only rendered when "Show annotations" is on. */
-export default function Annotation({ n, hurdle, note, align = 'left', className = '' }: Props) {
+export default function Annotation({ n, hurdle, note, align = 'left', placement = 'bottom', className = '' }: Props) {
   const { show } = useAnnotations()
   const [pinned, setPinned] = useState(false)
   const [hover, setHover] = useState(false)
@@ -36,7 +37,7 @@ export default function Annotation({ n, hurdle, note, align = 'left', className 
       </button>
       {open && (
         <span
-          className={`absolute top-8 z-50 block w-72 rounded-lg border border-amber-200 bg-amber-50 p-3 text-left text-[13px] font-normal normal-case leading-snug tracking-normal text-amber-950 shadow-xl ${
+          className={`absolute z-50 ${placement === 'top' ? 'bottom-8' : 'top-8'} block w-72 rounded-lg border border-amber-200 bg-amber-50 p-3 text-left text-[13px] font-normal normal-case leading-snug tracking-normal text-amber-950 shadow-xl ${
             align === 'right' ? 'right-0' : 'left-0'
           }`}
         >

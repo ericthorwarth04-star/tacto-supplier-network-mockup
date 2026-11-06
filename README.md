@@ -4,7 +4,8 @@ Clickable mockup for a job interview case: turning the suppliers of Tacto's cust
 
 > Konzept-Mockup für ein Bewerbungsgespräch. Kein offizielles Tacto-Produkt. All companies and people are fictional.
 
-**Live:** _LIVE_LINK_ (Railway)
+**Live:** https://tacto-supplier-network-mockup-production.up.railway.app (Railway)  
+**Code:** https://github.com/ericthorwarth04-star/tacto-supplier-network-mockup
 
 ## Concept in short
 
